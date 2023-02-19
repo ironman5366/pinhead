@@ -1,11 +1,23 @@
 import React from 'react';
 import {Container, Title} from "@mantine/core";
-import Editor from "./components/organisms/Editor";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import Home from "./pages/Home";
+import CreateDocument from "./pages/CreateDocument";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />
+  },
+  {
+    path: "/documents/create",
+    element: <CreateDocument />
+  }
+])
 
 function App() {
   return <Container fluid>
-    <Title>Pinhead</Title>
-    <Editor />
+      <RouterProvider router={router} />
   </Container>
 }
 
