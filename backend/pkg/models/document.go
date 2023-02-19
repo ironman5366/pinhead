@@ -1,7 +1,13 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"github.com/jackc/pgx/pgtype"
+	"gorm.io/gorm"
+)
 
 type Document struct {
 	gorm.Model
+	Name     string
+	Content  pgtype.JSONB
+	Versions []DocumentVersion
 }
