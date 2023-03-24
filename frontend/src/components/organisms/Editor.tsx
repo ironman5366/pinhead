@@ -5,11 +5,11 @@ import MenuBar from "../molecules/MenuBar";
 import {Loader} from "@mantine/core";
 
 export interface EditorProps {
-    initialContent: string
+    initialContent?: string
 }
 
 export default function Editor({ initialContent }: EditorProps) {
-    const [content, setContent] = useState(initialContent);
+    const [content, setContent] = useState(initialContent || "");
 
     const editor = useEditor({
         extensions: [
@@ -23,6 +23,12 @@ export default function Editor({ initialContent }: EditorProps) {
     }
 
     return <div>
+        <button onClick={() => {
+            const editorContent = editor?.getJSON();
+            console.log("Editor content", editorContent)
+        }}>
+            Get content
+        </button>
         <MenuBar editor={editor} />
         <EditorContent editor={editor} />
     </div>

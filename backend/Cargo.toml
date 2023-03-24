@@ -1,0 +1,14 @@
+[package]
+name = "pinhead"
+version = "0.0.1"
+authors = ["Will Beddow <will@willbeddow.com>"]
+edition = "2021"
+
+[workspace]
+members = [
+    "programs/server",
+]
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+server = { path = "programs/server" }
