@@ -1,8 +1,8 @@
-use sqlx::{Pool, Postgres};
-use sqlx::postgres::PgPoolOptions;
 use crate::config::Config;
 use crate::constants::MAX_DB_CONNECTIONS;
 use crate::error::ServerResult;
+use sqlx::postgres::PgPoolOptions;
+use sqlx::{Pool, Postgres};
 
 pub async fn create_db_pool(config: &Config) -> ServerResult<Pool<Postgres>> {
     let pool = PgPoolOptions::new()

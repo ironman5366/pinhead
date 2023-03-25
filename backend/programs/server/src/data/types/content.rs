@@ -1,4 +1,2 @@
 #[derive(Debug)]
-pub struct Content {
-
-}
+pub struct Content {}

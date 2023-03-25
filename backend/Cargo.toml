@@ -12,3 +12,4 @@ members = [
 [dependencies]
 tokio = { version = "1", features = ["full"] }
 server = { path = "programs/server" }
+flexi_logger = { version="0.25", features=["colors"] }

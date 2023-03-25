@@ -7,8 +7,7 @@ pub enum ServerError {
     #[error(transparent)]
     SQLXError(#[from] sqlx::Error),
     #[error(transparent)]
-    DotEnvError(#[from] dotenv::Error)
+    DotEnvError(#[from] dotenv::Error),
 }
-
 
 pub type ServerResult<T> = Result<T, ServerError>;
