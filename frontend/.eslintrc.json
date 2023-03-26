@@ -1,0 +1,13 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": ["airbnb", "prettier", "react-app"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
+  "rules": {
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }]
+  }
+}

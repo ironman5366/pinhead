@@ -6,7 +6,8 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
-import {Dispatch, SetStateAction} from "react";
+import debounce from "lodash/debounce"
+import {Dispatch, SetStateAction, useCallback} from "react";
 
 export interface EditorProps {
     initialContent?: string
@@ -14,6 +15,12 @@ export interface EditorProps {
 }
 
 export default function Editor({ initialContent, setEditorContent }: EditorProps) {
+
+
+    const debouncedUpdate = useCallback(debounce((editor) => setEditorContent(editor.getJSON()), 500), [
+        setEditorContent
+    ]);
+
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -26,8 +33,7 @@ export default function Editor({ initialContent, setEditorContent }: EditorProps
         ],
         content: initialContent,
         onUpdate: ({editor}) => {
-            // TODO: might need to debounce this
-            setEditorContent(editor.getJSON());
+            debouncedUpdate(editor)
         }
     });
 
