@@ -11,22 +11,20 @@ use std::sync::Arc;
 pub async fn get_document(Extension(state): Extension<State>, Path(document_id): Path<i32>) {}
 
 #[derive(Deserialize, Debug)]
-struct CreateDocument {
-    title: String,
-    content: Value,
-    created_at: DateTime<Utc>,
-    updated_at: DateTime<Utc>,
+pub struct CreateDocument {
+    pub title: String,
+    pub content: Value
 }
 
-/*
-pub async fn create_document(Extension(state): Extension<State>,
-                             Json(payload): Json<CreateDocument>) -> Json<Document> {
-    Document::create(
+
+pub async fn create_document(Extension(state): Extension<Arc<State>>,
+                             Json(payload): Json<CreateDocument>) -> ServerResult<Json<Document>> {
+    Ok(Json(Document::create(
         &state.db_pool,
-
-    )
+            payload.title,
+            payload.content
+    ).await?))
 }
- */
 
 pub async fn list_documents(
     Extension(state): Extension<Arc<State>>,

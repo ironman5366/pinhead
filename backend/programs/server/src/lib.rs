@@ -10,13 +10,15 @@ mod state;
 use crate::config::Config;
 use crate::data::connection::create_db_pool;
 use crate::error::ServerResult;
-use crate::routes::v1::document::list_documents;
+use crate::routes::v1::document::{create_document, list_documents};
 use crate::routes::v1::health_check::health_check;
 use crate::state::State;
-use axum::{routing::get, Extension, Router};
+use axum::{routing::{get, post}, Extension, Router};
 use std::net::SocketAddr;
 use std::str::FromStr;
 use std::sync::Arc;
+use axum::http::Method;
+use tower_http::cors::{CorsLayer, Any};
 
 pub async fn run_server() {
     log::info!("Starting server");
@@ -29,10 +31,17 @@ pub async fn run_server() {
 
     let state = Arc::new(State { db_pool });
 
+    let cors = CorsLayer::new()
+        .allow_methods([Method::GET, Method::POST, Method::DELETE, Method::PUT, Method::PATCH])
+        .allow_origin(Any)
+        .allow_headers(Any);
+
     let app = Router::new()
         .route("/health_check", get(health_check))
-        .route("/api/v1/documents/", get(list_documents))
-        .layer(Extension(state));
+        .route("/api/v1/documents/",
+               get(list_documents).post(create_document))
+        .layer(Extension(state))
+        .layer(cors);
 
     let addr = SocketAddr::from_str(&config.addr)
         .expect(&format!("Couldn't parse address from {}", config.addr));

@@ -9,14 +9,9 @@ export interface CreateDocumentOptions {
 }
 
 
-export interface CreateDocumentResponse {
-    id: number;
-}
-
-
 export default function useCreateDocument() {
     const { client } = useClientContext();
-    return useMutation<CreateDocumentResponse, AxiosError, CreateDocumentOptions>((data) =>
+    return useMutation<Document, AxiosError, CreateDocumentOptions>((data) =>
         client.post("api/v1/documents/", data)
     )
 }
