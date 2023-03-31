@@ -3,7 +3,6 @@ use crate::data::types::content::Content;
 use crate::error::{ServerError, ServerResult};
 use serde_json::Value;
 use sqlx::types::chrono::{DateTime, Utc};
-use sqlx::types::Json;
 use sqlx::{query_as, PgPool};
 
 #[derive(sqlx::FromRow, Debug)]

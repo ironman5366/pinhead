@@ -3,12 +3,14 @@ mod constants;
 mod data;
 pub mod error;
 mod routes;
+mod serializers;
 mod services;
 mod state;
 
 use crate::config::Config;
 use crate::data::connection::create_db_pool;
 use crate::error::ServerResult;
+use crate::routes::v1::document::list_documents;
 use crate::routes::v1::health_check::health_check;
 use crate::state::State;
 use axum::{routing::get, Extension, Router};
@@ -29,6 +31,7 @@ pub async fn run_server() {
 
     let app = Router::new()
         .route("/health_check", get(health_check))
+        .route("/api/v1/documents/", get(list_documents))
         .layer(Extension(state));
 
     let addr = SocketAddr::from_str(&config.addr)
