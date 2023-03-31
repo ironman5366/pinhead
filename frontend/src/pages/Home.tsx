@@ -1,20 +1,17 @@
-import React from 'react';
-import {Button, Col, Divider, Grid, Stack, Title} from "@mantine/core";
+import React, {useMemo} from 'react';
+import {Button, Col, Divider, Grid, Loader, Stack, Title} from "@mantine/core";
 import {useNavigate} from "react-router-dom";
+import useDocuments from "../hooks/useDocuments";
+import DocumentGrid from "../components/molecules/DocumentGrid";
 
 export default function Home() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { isLoading, data } = useDocuments();
+
     return <Stack>
         <Title>
-            Pinhead
+            Documents
         </Title>
-        <Divider />
-        <Title order={2}>
-            Your Documents
-        </Title>
-        <Divider />
-        <Button onClick={() => navigate("/documents/create")}>
-            Add Document +
-        </Button>
+        {isLoading ? <Loader /> : <DocumentGrid documents={data?.results || []} />}
     </Stack>
 }
