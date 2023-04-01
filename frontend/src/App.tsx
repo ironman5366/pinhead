@@ -3,11 +3,15 @@ import {Container, Title} from "@mantine/core";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Home from "./pages/Home";
 import CreateDocument from "./pages/CreateDocument";
+import MainLayout from "./containers/MainLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />
+    element:
+        <MainLayout>
+          <Home />
+        </MainLayout>
   },
   {
     path: "/documents/create",
