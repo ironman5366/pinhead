@@ -12,6 +12,8 @@ pub enum ServerError {
     SQLXError(#[from] sqlx::Error),
     #[error(transparent)]
     DotEnvError(#[from] dotenv::Error),
+    #[error(transparent)]
+    ArgonError(#[from] argon2::Error)
 }
 
 pub type ServerResult<T> = Result<T, ServerError>;

@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS document_versions (
    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_document_versions_created_at ON document_versions(created_at);
+CREATE INDEX idx_document_versions_created_at ON document_versions (created_at);

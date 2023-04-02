@@ -11,14 +11,14 @@ use std::sync::Arc;
 pub async fn get_document(Extension(state): Extension<State>, Path(document_id): Path<i32>) {}
 
 #[derive(Deserialize, Debug)]
-pub struct CreateDocument {
+pub struct CreateDocumentSerializer {
     pub title: String,
     pub content: Value
 }
 
 
 pub async fn create_document(Extension(state): Extension<Arc<State>>,
-                             Json(payload): Json<CreateDocument>) -> ServerResult<Json<Document>> {
+                             Json(payload): Json<CreateDocumentSerializer>) -> ServerResult<Json<Document>> {
     Ok(Json(Document::create(
         &state.db_pool,
             payload.title,

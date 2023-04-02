@@ -1274,6 +1274,7 @@ dependencies = [
  "lazy_static",
  "log",
  "nanoid",
+ "rand",
  "rust-argon2",
  "serde",
  "serde_json",
