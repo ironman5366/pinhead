@@ -8,10 +8,5 @@ export default function Home() {
     const navigate = useNavigate();
     const { isLoading, data } = useDocuments();
 
-    return <Stack>
-        <Title>
-            Documents
-        </Title>
-        {isLoading ? <Loader /> : <DocumentGrid documents={data?.results || []} />}
-    </Stack>
+    return <Stack />
 }

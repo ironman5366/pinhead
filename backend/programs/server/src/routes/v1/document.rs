@@ -13,17 +13,16 @@ pub async fn get_document(Extension(state): Extension<State>, Path(document_id):
 #[derive(Deserialize, Debug)]
 pub struct CreateDocumentSerializer {
     pub title: String,
-    pub content: Value
+    pub content: Value,
 }
 
-
-pub async fn create_document(Extension(state): Extension<Arc<State>>,
-                             Json(payload): Json<CreateDocumentSerializer>) -> ServerResult<Json<Document>> {
-    Ok(Json(Document::create(
-        &state.db_pool,
-            payload.title,
-            payload.content
-    ).await?))
+pub async fn create_document(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<CreateDocumentSerializer>,
+) -> ServerResult<Json<Document>> {
+    Ok(Json(
+        Document::create(&state.db_pool, payload.title, payload.content).await?,
+    ))
 }
 
 pub async fn list_documents(

@@ -1,11 +1,11 @@
 use crate::constants::SALT_LENGTH;
+use crate::error::ServerResult;
 use argon2::{Config, ThreadMode, Variant, Version};
 use lazy_static::lazy_static;
 use rand::distributions::Alphanumeric;
 use rand::distributions::DistString;
 use std::ops::Deref;
 use std::thread::available_parallelism;
-use crate::error::ServerResult;
 
 #[inline]
 pub fn random_string(length: usize) -> String {

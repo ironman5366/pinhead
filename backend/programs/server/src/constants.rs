@@ -1,5 +1,5 @@
-use lazy_static::lazy_static;
 use chrono::Duration;
+use lazy_static::lazy_static;
 
 // Database constants
 pub const MAX_DB_CONNECTIONS: u32 = 5;

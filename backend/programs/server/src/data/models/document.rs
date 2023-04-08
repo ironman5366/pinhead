@@ -1,10 +1,9 @@
+use crate::data::models::document_version::DocumentVersion;
 use crate::error::ServerResult;
 use chrono::{DateTime, Utc};
-use hyper::Server;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use sqlx::{query_as, PgPool};
-use serde_json::{Value};
-use crate::data::models::document_version::DocumentVersion;
 
 #[derive(sqlx::FromRow, Serialize, Deserialize, Debug)]
 pub struct Document {
@@ -17,15 +16,15 @@ pub struct Document {
 }
 
 impl Document {
-
     /// Get the latest version of this document's content
     pub async fn content(&self, conn: &PgPool) -> ServerResult<DocumentVersion> {
-        Ok(
-            query_as!(
-                DocumentVersion, r#"SELECT * FROM document_versions WHERE document_id=$1 ORDER BY created_at LIMIT 1"#,
-                self.id
-            ).fetch_one(conn).await?
+        Ok(query_as!(
+            DocumentVersion,
+            r#"SELECT * FROM document_versions WHERE document_id=$1 ORDER BY created_at LIMIT 1"#,
+            self.id
         )
+        .fetch_one(conn)
+        .await?)
     }
 
     pub async fn get(conn: &PgPool, id: i32) -> ServerResult<Self> {
@@ -43,7 +42,7 @@ impl Document {
     }
 
     pub async fn create(conn: &PgPool, title: String, content: Value) -> ServerResult<Self> {
-       Ok(query_as!(
+        Ok(query_as!(
             Document,
             r#"
                 WITH new_document AS (

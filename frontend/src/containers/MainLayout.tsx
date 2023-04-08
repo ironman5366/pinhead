@@ -25,7 +25,10 @@ export default function MainLayout({ children }: PropsWithChildren<any>) {
             >
                 <Wordmark />
             </Header>
-            <NavbarSimple height={SIDEBAR_HEIGHT}/>
+            <NavbarSimple height={SIDEBAR_HEIGHT}/>\
+            <Container>
+                {children}
+            </Container>
         </>
     );
 }
