@@ -1,17 +1,14 @@
 use crate::data::models::document_version::DocumentVersion;
 use crate::error::ServerResult;
 use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use sqlx::{query_as, PgPool};
 
-#[derive(sqlx::FromRow, Serialize, Deserialize, Debug)]
+#[derive(sqlx::FromRow, Debug)]
 pub struct Document {
     pub id: i32,
     pub title: String,
-    #[serde(rename = "createdAt")]
     pub created_at: DateTime<Utc>,
-    #[serde(rename = "updatedAt")]
     pub updated_at: DateTime<Utc>,
 }
 

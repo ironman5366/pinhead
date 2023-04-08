@@ -58,6 +58,6 @@ pub fn hash_token(token: String) -> ServerResult<String> {
 }
 
 #[inline]
-pub fn verify_hash(hash: String, secret: String) -> ServerResult<bool> {
+pub fn verify_hash(hash: &str, secret: &str) -> ServerResult<bool> {
     Ok(argon2::verify_encoded(hash.as_ref(), secret.as_ref())?)
 }

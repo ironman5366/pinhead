@@ -31,6 +31,8 @@ pub enum ServerError {
     InvalidTokenError,
     #[error("Expired Token")]
     ExpiredTokenError,
+    #[error("Invalid password")]
+    InvalidPasswordError,
 }
 
 pub type ServerResult<T> = Result<T, ServerError>;
@@ -44,9 +46,11 @@ impl IntoResponse for ServerError {
             Self::UnauthorizedError => StatusCode::UNAUTHORIZED,
             Self::InvalidTokenError => StatusCode::UNAUTHORIZED,
             Self::ExpiredTokenError => StatusCode::UNAUTHORIZED,
+            Self::InvalidPasswordError => StatusCode::UNAUTHORIZED,
             _ => StatusCode::INTERNAL_SERVER_ERROR,
         };
 
+        // TODO: only expose raw error message on debug. Useful for dev but should cleanup before prod
         let message = json!({
             "error": status.to_string(),
             "message": self.to_string()

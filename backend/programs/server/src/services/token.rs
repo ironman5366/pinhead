@@ -33,7 +33,7 @@ pub async fn verify_token(conn: &PgPool, raw_token: String) -> ServerResult<User
     let (db_token, rel_user) = UserToken::get(conn, key).await?;
 
     // Check the digest on the token
-    if !(verify_hash(db_token.digest, secret.to_string()))? {
+    if !(verify_hash(&db_token.digest, secret))? {
         return Err(ServerError::InvalidTokenError);
     }
 

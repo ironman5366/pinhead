@@ -9,3 +9,6 @@ export const EMPTY_DOCUMENT: JSONContent = {
         {type: "paragraph"}
     ]
 }
+
+// The key that the auth token will be stored under in local storage
+export const AUTH_TOKEN_STORAGE_KEY = "auth_token";

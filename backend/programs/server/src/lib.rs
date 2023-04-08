@@ -12,6 +12,7 @@ use crate::config::Config;
 use crate::data::connection::create_db_pool;
 use crate::error::ServerResult;
 use crate::middleware::auth_middleware::auth_middleware;
+use crate::routes::router::router;
 use crate::routes::v1::document::{create_document, list_documents};
 use crate::routes::v1::health_check::health_check;
 use crate::state::State;
@@ -48,14 +49,8 @@ pub async fn run_server() {
         .allow_origin(Any)
         .allow_headers(Any);
 
-    let auth_middleware = middleware_from_fn(auth_middleware);
     let app = Router::new()
-        .route("/health_check", get(health_check))
-        .route(
-            "/api/v1/documents/",
-            get(list_documents).post(create_document),
-        )
-        .route_layer(auth_middleware)
+        .nest("/api/v1/", router())
         .layer(Extension(state))
         .layer(cors);
 

@@ -13,7 +13,7 @@ use axum::{
 };
 use std::sync::Arc;
 
-async fn get_user_from_header(auth_header_raw: String, state: State) -> ServerResult<User> {
+async fn get_user_from_header(auth_header_raw: &str, state: &State) -> ServerResult<User> {
     let token = auth_header_raw
         .split_whitespace()
         .last()
@@ -44,6 +44,9 @@ pub async fn auth_middleware<T>(mut req: Request<T>, next: Next<T>) -> ServerRes
             ))
         }
     };
+
+    let user = get_user_from_header(auth_header, state).await?;
+    req.extensions_mut().insert(user);
 
     Ok(next.run(req).await)
 }

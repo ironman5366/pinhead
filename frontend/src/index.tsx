@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import {ClientProvider} from "./contexts/ClientContext";
 import Theme from "./theme";
 import './index.css'
+import {TokenProvider} from "./contexts/TokenContext";
+import {UserProvider} from "./contexts/UserContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,9 +20,13 @@ root.render(
   <React.StrictMode>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={Theme}>
           <QueryClientProvider client={queryClient}>
-              <ClientProvider>
-                  <App />
-              </ClientProvider>
+              <TokenProvider>
+                  <ClientProvider>
+                      <UserProvider>
+                          <App />
+                      </UserProvider>
+                  </ClientProvider>
+              </TokenProvider>
           </QueryClientProvider>
       </MantineProvider>
 
