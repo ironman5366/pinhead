@@ -8,11 +8,11 @@ use axum::Router;
 
 fn user_routes() -> Router<()> {
     let auth_fn = middleware_from_fn(auth_middleware);
+
     Router::new()
         .route("/login", post(login))
         .route("/register", post(register))
-        .route("/current", get(current))
-        .route_layer(auth_fn)
+        .route("/current", get(current).route_layer(auth_fn))
 }
 
 fn document_routes() -> Router<()> {

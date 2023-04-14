@@ -3,7 +3,7 @@ use crate::services::crypto::hash_password;
 use chrono::{DateTime, Utc};
 use sqlx::{query_as, FromRow, PgPool};
 
-#[derive(FromRow, Debug)]
+#[derive(FromRow, Debug, Clone)]
 pub struct User {
     pub id: i32,
     pub email: String,

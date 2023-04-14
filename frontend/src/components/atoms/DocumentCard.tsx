@@ -1,6 +1,6 @@
 import React from "react";
 import {Card, Title} from "@mantine/core";
-import PinheadDocument from "../../models/pinheadDocument";
+import PinheadDocument from "../../types/PinheadDocument";
 
 export interface DocumentCardProps {
     document: PinheadDocument;

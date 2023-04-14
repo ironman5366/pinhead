@@ -16,26 +16,30 @@ pub struct RegisterLoginSerializer {
     password: String,
 }
 
+#[derive(Serialize, Debug)]
+pub struct RegisterLoginResponseSerializer {
+    pub token: String,
+}
+
 #[axum_macros::debug_handler]
 pub async fn register(
     Extension(state): Extension<Arc<State>>,
     Json(payload): Json<RegisterLoginSerializer>,
-) -> ServerResult<Json<UserSerializer>> {
+) -> ServerResult<Json<RegisterLoginResponseSerializer>> {
     let new_user = User::create(&state.db_pool, payload.email, payload.password).await?;
-    Ok(Json(new_user.into()))
-}
+    log::info!("Registered user {}", new_user.email);
 
-#[derive(Serialize, Debug)]
-pub struct LoginResponseSerializer {
-    pub user: UserSerializer,
-    pub token: String,
+    // If the user registered successfully, issue a token for them
+    let token = issue_token(&state.db_pool, new_user.id).await?;
+
+    Ok(Json(RegisterLoginResponseSerializer { token }))
 }
 
 #[axum_macros::debug_handler]
 pub async fn login(
     Extension(state): Extension<Arc<State>>,
     Json(payload): Json<RegisterLoginSerializer>,
-) -> ServerResult<Json<LoginResponseSerializer>> {
+) -> ServerResult<Json<RegisterLoginResponseSerializer>> {
     // TODO: better error for not found, rate limiting
 
     // Try to get a user with the given email
@@ -51,20 +55,13 @@ pub async fn login(
     // If the user is logged in successfully, issue a token for them
     let token = issue_token(&state.db_pool, rel_user.id).await?;
 
-    return Ok(Json(LoginResponseSerializer {
-        user: rel_user.into(),
-        token,
-    }));
+    Ok(Json(RegisterLoginResponseSerializer { token }))
 }
 
 #[axum_macros::debug_handler]
 pub async fn current(
-    Extension(state): Extension<Arc<State>>,
+    Extension(user): Extension<User>,
+    Extension(_): Extension<Arc<State>>,
 ) -> ServerResult<Json<UserSerializer>> {
-    // TODO: figure out what's up with the auth middleware, this should take an Extension<User>
-    Ok(Json(
-        User::get_by_email(&state.db_pool, "will@example.com".to_string())
-            .await?
-            .into(),
-    ))
+    Ok(Json(user.into()))
 }

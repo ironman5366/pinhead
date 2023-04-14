@@ -33,9 +33,9 @@ lazy_static! {
     static ref PASSWORD_CONFIG: Config<'static> = get_argon_config(
         10
     );
-    // Tokens only need to be lightly encrypted, and we want this to be fast
+    // Tokens don't need to be as heavily encrypted, and we want this to be fast
     static ref TOKEN_CONFIG: Config<'static> = get_argon_config(
-        2
+        3
     );
 }
 

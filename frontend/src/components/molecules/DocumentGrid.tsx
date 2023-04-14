@@ -1,7 +1,7 @@
 import React from "react"
 import {Grid} from "@mantine/core";
 import DocumentCard from "../atoms/DocumentCard";
-import PinheadDocument from "../../models/pinheadDocument";
+import PinheadDocument from "../../types/PinheadDocument";
 
 export interface DocumentGridProps {
     documents: PinheadDocument[]
