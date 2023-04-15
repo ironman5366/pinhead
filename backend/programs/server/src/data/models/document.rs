@@ -1,4 +1,3 @@
-use crate::data::models::content_type::ContentField;
 use crate::data::models::document_version::DocumentVersion;
 use crate::error::ServerResult;
 use chrono::{DateTime, Utc};
@@ -41,8 +40,7 @@ impl Document {
             .await?)
     }
 
-    /*
-    pub async fn create(conn: &PgPool, title: String) -> ServerResult<Self> {
+    pub async fn create(conn: &PgPool, title: String, content: Value) -> ServerResult<Self> {
         Ok(query_as!(
             Document,
             r#"
@@ -64,6 +62,4 @@ impl Document {
         .fetch_one(conn)
         .await?)
     }
-
-     */
 }

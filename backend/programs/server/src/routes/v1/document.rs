@@ -12,6 +12,7 @@ use std::sync::Arc;
 #[derive(Deserialize, Debug)]
 pub struct CreateDocumentSerializer {
     pub title: String,
+    pub content: Value,
 }
 
 #[axum_macros::debug_handler]
@@ -20,7 +21,7 @@ pub async fn create_document(
     Json(payload): Json<CreateDocumentSerializer>,
 ) -> ServerResult<Json<DocumentSerializer>> {
     Ok(Json(
-        Document::create(&state.db_pool, payload.title)
+        Document::create(&state.db_pool, payload.title, payload.content)
             .await?
             .into(),
     ))

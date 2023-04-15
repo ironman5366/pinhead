@@ -9,9 +9,9 @@ use std::collections::HashMap;
 #[derive(sqlx::FromRow, Debug)]
 pub struct DocumentVersion {
     pub id: i32,
-    pub content: Value,
     pub document_id: i32,
-    pub data: HashMap<String, Option<DataField>>,
+    // TODO: this should be a HashMap<String, Option<Value>>
+    pub content: Value,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
 }
