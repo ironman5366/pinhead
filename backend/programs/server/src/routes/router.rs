@@ -10,9 +10,9 @@ fn user_routes() -> Router<()> {
     let auth_fn = middleware_from_fn(auth_middleware);
 
     Router::new()
-        .route("/login", post(login))
-        .route("/register", post(register))
-        .route("/current", get(current).route_layer(auth_fn))
+        .route("/login/", post(login))
+        .route("/register/", post(register))
+        .route("/current/", get(current).route_layer(auth_fn))
 }
 
 fn document_routes() -> Router<()> {
@@ -28,5 +28,5 @@ pub fn router() -> Router<()> {
     Router::new()
         .nest("/users", user_routes())
         .nest("/documents", document_routes())
-        .route("/health_check", get(health_check))
+        .route("/health_check/", get(health_check))
 }

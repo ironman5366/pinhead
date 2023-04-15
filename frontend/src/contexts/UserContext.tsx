@@ -5,7 +5,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 
 export const [UserProvider, useUser] = constate(() => {
     const [user, setUser] = useState<User | undefined>();
-    const { data, isLoading} = useCurrentUser();
+    const { data, isLoading, } = useCurrentUser();
 
     useEffect(() => {
         if (data) {

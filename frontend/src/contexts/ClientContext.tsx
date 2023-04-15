@@ -15,6 +15,10 @@ const [ClientProvider, useClient] = constate(() => {
             }
         }
     )
+    client.interceptors.response.use(
+        // We don't want to have to access response.data.data
+        async (response) => response.data
+    )
     return { client }
 })
 

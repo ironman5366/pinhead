@@ -14,6 +14,6 @@ export interface RegistrationResponse {
 export default function useRegister() {
     const { client } = useClient();
 
-    return useMutation<RegistrationResponse, AxiosError, RegistrationOptions>((data) => client.post("/api/v1/register/", data))
+    return useMutation<RegistrationResponse, AxiosError, RegistrationOptions>((data) => client.post("/api/v1/users/register/", data))
 
 }

@@ -10,7 +10,7 @@ export default function AuthContainer({ children }: PropsWithChildren<any>) {
 
     useEffect(() => {
         if (!user && !isLoading) {
-            navigate("/login")
+            console.log("Would navigate to login because not user and not isLoading")
         }
     }, [navigate, user, isLoading])
 

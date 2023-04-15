@@ -1,7 +1,6 @@
 import {useMutation} from "react-query";
-import {AxiosError} from "axios";
+import {AxiosError,} from "axios";
 import {useClient} from "../contexts/ClientContext";
-import User from "../types/User";
 
 export interface LoginOptions {
     email: string;
@@ -9,13 +8,12 @@ export interface LoginOptions {
 }
 
 export interface LoginResponse {
-    user: User,
     token: string
 }
 
 export default function useLogin() {
     const { client } = useClient();
     return useMutation<LoginResponse, AxiosError, LoginOptions>((data) =>
-        client.post("api/v1/login/", data)
+        client.post("api/v1/users/login/", data)
     )
 }

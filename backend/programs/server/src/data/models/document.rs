@@ -1,13 +1,17 @@
+use crate::data::data_field::DataField;
+use crate::data::models::content_type::ContentField;
 use crate::data::models::document_version::DocumentVersion;
 use crate::error::ServerResult;
 use chrono::{DateTime, Utc};
 use serde_json::Value;
 use sqlx::{query_as, PgPool};
+use std::collections::HashMap;
 
 #[derive(sqlx::FromRow, Debug)]
 pub struct Document {
     pub id: i32,
     pub title: String,
+    pub content_type_id: i32,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
 }
@@ -38,10 +42,10 @@ impl Document {
             .await?)
     }
 
-    pub async fn create(conn: &PgPool, title: String, content: Value) -> ServerResult<Self> {
+    pub async fn create(conn: &PgPool, title: String) -> ServerResult<Self> {
         Ok(query_as!(
             Document,
-            r#"
+            r#"             
                 WITH new_document AS (
                     INSERT INTO documents(title)
                     VALUES ($1)
