@@ -1,4 +1,3 @@
-use crate::data::data_field::DataField;
 use crate::data::models::content_type::ContentField;
 use crate::data::models::document_version::DocumentVersion;
 use crate::error::ServerResult;
@@ -42,10 +41,11 @@ impl Document {
             .await?)
     }
 
+    /*
     pub async fn create(conn: &PgPool, title: String) -> ServerResult<Self> {
         Ok(query_as!(
             Document,
-            r#"             
+            r#"
                 WITH new_document AS (
                     INSERT INTO documents(title)
                     VALUES ($1)
@@ -64,4 +64,6 @@ impl Document {
         .fetch_one(conn)
         .await?)
     }
+
+     */
 }

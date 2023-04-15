@@ -1,1 +1,1 @@
--- Add up migration script here
+-- TODO: create content field model
