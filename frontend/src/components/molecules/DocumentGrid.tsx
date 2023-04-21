@@ -8,7 +8,6 @@ export interface DocumentGridProps {
 }
 
 export default function DocumentGrid({ documents }: DocumentGridProps) {
-    console.log("Documents", documents)
     return <Grid>
         {documents.map((d) =>
             <Grid.Col md={3} key={d.id}>

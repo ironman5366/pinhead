@@ -1,43 +1,29 @@
 import React from 'react';
-import {Container, Title} from "@mantine/core";
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import Home from "./pages/Home";
-import CreateDocument from "./pages/CreateDocument";
+import {Container} from "@mantine/core";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import MainLayout from "./containers/MainLayout";
 import GuestLayout from "./containers/GuestLayout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element:
-            <MainLayout>
-                <Home/>
-            </MainLayout>
-    },
-    {
-        path: "/login",
-        element:
-            <GuestLayout>
-                <Login/>
-            </GuestLayout>
-    },
-    {
-        path: "/register",
-        element: <GuestLayout>
-            <Register/>
-        </GuestLayout>
-    },
-    {
-        path: "/documents/create",
-        element: <CreateDocument/>
-    }
-])
+import Documents from "./pages/Documents";
+import Settings from "./pages/Settings";
 
 function App() {
     return <Container fluid>
-        <RouterProvider router={router}/>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<MainLayout />}>
+                    <Route path="/documents/" element={<Documents />} />
+                    <Route path="/settings/" element={<Settings />} />
+                </Route>
+                <Route path="/register" element={<GuestLayout>
+                    <Register />
+                </GuestLayout>} />
+                <Route path="/login" element={<GuestLayout>
+                    <Login />
+                </GuestLayout>} />
+            </Routes>
+        </BrowserRouter>
     </Container>
 }
 

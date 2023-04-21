@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, {ReactElement, useState} from 'react';
 import { createStyles, Navbar, Group, Code, getStylesRef, rem } from '@mantine/core';
 import {
     IconSettings,
     IconSwitchHorizontal,
-    IconLogout, IconFileDescription, IconTopologyRing, IconApi,
+    IconLogout, IconFileDescription, IconTopologyRing, IconApi, TablerIconsProps,
 } from '@tabler/icons-react';
+import {useNavigate, Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -59,34 +60,39 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-const data = [
-    { link: '', label: 'Documents', icon: IconFileDescription },
-    { link: '', label: 'Content Types', icon: IconTopologyRing },
-    { link: '', label: 'API & Admin', icon: IconApi },
-    { link: '', label: 'Settings', icon: IconSettings },
+interface AppTab {
+    label: string
+    icon: React.ComponentType<TablerIconsProps>
+    link: string;
+}
+
+const tabs: AppTab[] = [
+    { link: '/documents/', label: 'Documents', icon: IconFileDescription },
+    { link: '/content_types/', label: 'Content Types', icon: IconTopologyRing },
+    { link: '/admin/', label: 'API & Admin', icon: IconApi },
+    { link: '/settings/', label: 'Settings', icon: IconSettings },
 ];
 
-export interface NavbarProps {
+export interface SidebarProps {
     height: string
 }
 
-export default function NavbarSimple({height}: NavbarProps) {
+export default function Sidebar({height}: SidebarProps) {
     const { classes, cx } = useStyles();
-    const [active, setActive] = useState('Billing');
+    const [active, setActive] = useState('Documents');
 
-    const links = data.map((item) => (
-        <a
-            className={cx(classes.link, { [classes.linkActive]: item.label === active })}
-            href={item.link}
-            key={item.label}
-            onClick={(event) => {
-                event.preventDefault();
-                setActive(item.label);
+    const links = tabs.map((tab) => (
+        <Link
+            to={tab.link}
+            className={cx(classes.link, { [classes.linkActive]: tab.label === active })}
+            key={tab.label}
+            onClick={() => {
+                setActive(tab.label);
             }}
         >
-            <item.icon className={classes.linkIcon} stroke={1.5} />
-            <span>{item.label}</span>
-        </a>
+            <tab.icon className={classes.linkIcon} stroke={1.5} />
+            <span>{tab.label}</span>
+        </Link>
     ));
 
     return (
