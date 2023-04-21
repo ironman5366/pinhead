@@ -11,6 +11,7 @@ export default function AuthContainer({ children }: PropsWithChildren<any>) {
     useEffect(() => {
         if (!user && !isLoading) {
             console.log("Would navigate to login because not user and not isLoading")
+            // TODO: fix auth
         }
     }, [navigate, user, isLoading])
 

@@ -1,0 +1,1 @@
+DELETE FROM content_fields WHERE system = true;

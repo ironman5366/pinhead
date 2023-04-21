@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 import {
-    Container,
+    Container, Grid,
     Header,
-    rem,
+    rem, Title,
     useMantineTheme,
 } from '@mantine/core';
 import {Outlet} from "react-router-dom";
@@ -27,10 +27,14 @@ export default function MainLayout({ children }: PropsWithChildren<any>) {
             >
                 <Wordmark />
             </Header>
-            <Sidebar height={SIDEBAR_HEIGHT}/>
-            <Container>
-                <Outlet />
-            </Container>
+            <Grid>
+                <Grid.Col span="auto">
+                    <Sidebar height={SIDEBAR_HEIGHT}/>
+                </Grid.Col>
+                <Grid.Col span={9}>
+                    <Outlet />
+                </Grid.Col>
+            </Grid>
         </AuthContainer>
     );
 }

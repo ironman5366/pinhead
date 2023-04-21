@@ -67,7 +67,7 @@ interface AppTab {
 }
 
 const tabs: AppTab[] = [
-    { link: '/documents/', label: 'Documents', icon: IconFileDescription },
+    { link: '/', label: 'Documents', icon: IconFileDescription },
     { link: '/content_types/', label: 'Content Types', icon: IconTopologyRing },
     { link: '/admin/', label: 'API & Admin', icon: IconApi },
     { link: '/settings/', label: 'Settings', icon: IconSettings },

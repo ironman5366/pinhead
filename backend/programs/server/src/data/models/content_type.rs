@@ -28,4 +28,10 @@ impl ContentType {
         .fetch_all(conn)
         .await?)
     }
+
+    pub async fn list(conn: &PgPool) -> ServerResult<Vec<ContentType>> {
+        Ok(query_as!(ContentType, "SELECT * FROM content_types;")
+            .fetch_all(conn)
+            .await?)
+    }
 }

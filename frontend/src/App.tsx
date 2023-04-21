@@ -13,7 +13,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<MainLayout />}>
-                    <Route path="/documents/" element={<Documents />} />
+                    <Route path="/" element={<Documents />} />
                     <Route path="/settings/" element={<Settings />} />
                 </Route>
                 <Route path="/register" element={<GuestLayout>
