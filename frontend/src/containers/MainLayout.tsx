@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 import {
-    Container, Grid,
+    Grid,
     Header,
-    rem, Title,
+    rem,
     useMantineTheme,
 } from '@mantine/core';
 import {Outlet} from "react-router-dom";
