@@ -4,6 +4,9 @@ version = "0.0.1"
 authors = ["Will Beddow <will@willbeddow.com>"]
 edition = "2021"
 
+[profile.release]
+lto = true
+
 [workspace]
 members = [
     "programs/server",

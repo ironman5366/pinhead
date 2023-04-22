@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {QueryClient, QueryClientProvider} from "react-query";
 import {MantineProvider} from "@mantine/core";
+import {BrowserRouter} from "react-router-dom";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {ClientProvider} from "./contexts/ClientContext";
@@ -22,9 +23,11 @@ root.render(
           <QueryClientProvider client={queryClient}>
               <TokenProvider>
                   <ClientProvider>
-                      <UserProvider>
-                          <App />
-                      </UserProvider>
+                      <BrowserRouter>
+                          <UserProvider>
+                              <App />
+                          </UserProvider>
+                      </BrowserRouter>
                   </ClientProvider>
               </TokenProvider>
           </QueryClientProvider>

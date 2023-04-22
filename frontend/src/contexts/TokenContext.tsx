@@ -9,13 +9,11 @@ export const [TokenProvider, useToken] = constate(() => {
     useEffect(() => {
         const storedToken = localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
         if (storedToken) {
-            console.log("Setting token from storage", storedToken);
             setAuthToken(storedToken)
         }
     }, [])
 
     const setToken = useCallback((token: string) => {
-        console.log("Setting token in storage ", token);
         setAuthToken(token)
         localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token)
     }, [])
