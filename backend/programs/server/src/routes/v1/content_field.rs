@@ -1,10 +1,11 @@
 use crate::data::models::content_field::ContentField;
-use crate::error::ServerResult;
+use crate::error::{ServerError, ServerResult};
 use crate::serializers::results::ResultList;
 use crate::state::State;
 use axum::{Extension, Json};
 use chrono::{DateTime, Utc};
-use serde::Serialize;
+use jsonschema::JSONSchema;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::sync::Arc;
 
@@ -46,4 +47,26 @@ pub async fn list_content_fields(
     Ok(Json(ResultList {
         results: content_fields,
     }))
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct CreateContentFieldSerializer {
+    pub name: Option<String>,
+    pub code: String,
+    pub schema: Value,
+}
+
+#[axum_macros::debug_handler]
+pub async fn create_content_field(
+    Extension(state): Extension<Arc<State>>,
+    Json(payload): Json<CreateContentFieldSerializer>,
+) -> ServerResult<Json<ContentFieldSerializer>> {
+    // Make sure the schema is valid
+    JSONSchema::compile(&payload.schema).or(Err(ServerError::MalformedSchemaError))?;
+    Ok(Json(
+        ContentField::create(&state.db_pool, payload.name, payload.code, payload.schema)
+            .await?
+            .into(),
+    ))
 }

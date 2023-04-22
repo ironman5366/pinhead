@@ -1,6 +1,5 @@
 use crate::error::ServerResult;
 use chrono::{DateTime, Utc};
-use jsonschema::JSONSchema;
 use serde_json::Value;
 use sqlx::{query_as, PgPool};
 
@@ -23,5 +22,24 @@ impl ContentField {
         Ok(query_as!(ContentField, "SELECT * FROM content_fields;")
             .fetch_all(conn)
             .await?)
+    }
+
+    pub async fn create(
+        conn: &PgPool,
+        name: Option<String>,
+        code: String,
+        schema: Value,
+    ) -> ServerResult<Self> {
+        Ok(query_as!(
+            ContentField,
+            "INSERT INTO content_fields(name, code, system, schema) VALUES ($1, $2, $3, $4) RETURNING *",
+            name,
+            code,
+            // Always user created
+            false,
+            schema
+        )
+        .fetch_one(conn)
+        .await?)
     }
 }

@@ -1,7 +1,6 @@
 use crate::data::models::content_field::ContentField;
 use crate::error::ServerResult;
 use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
 use sqlx::{query_as, FromRow, PgPool};
 
 #[derive(FromRow, Debug)]

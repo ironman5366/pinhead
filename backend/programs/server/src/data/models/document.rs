@@ -3,7 +3,6 @@ use crate::error::ServerResult;
 use chrono::{DateTime, Utc};
 use serde_json::Value;
 use sqlx::{query_as, PgPool};
-use std::collections::HashMap;
 
 #[derive(sqlx::FromRow, Debug)]
 pub struct Document {

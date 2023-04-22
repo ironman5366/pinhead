@@ -9,7 +9,7 @@ export default function ContentFieldList() {
         <Title>
             Available Fields
         </Title>
-        {data && data.results.map((d) => <div>
+        {data && data.results.map((d) => <div key={d.id}>
             {d.name}
             <Divider />
         </div>)}

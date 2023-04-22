@@ -1,5 +1,5 @@
 use crate::middleware::auth_middleware::auth_middleware;
-use crate::routes::v1::content_field::list_content_fields;
+use crate::routes::v1::content_field::{create_content_field, list_content_fields};
 use crate::routes::v1::content_types::list_content_types;
 use crate::routes::v1::document::{create_document, list_documents};
 use crate::routes::v1::health_check::health_check;
@@ -30,6 +30,7 @@ fn content_field_routes() -> Router<()> {
     let auth_fn = middleware_from_fn(auth_middleware);
     Router::new()
         .route("/", get(list_content_fields))
+        .route("/", post(create_content_field))
         .layer(auth_fn)
 }
 

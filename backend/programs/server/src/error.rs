@@ -33,6 +33,8 @@ pub enum ServerError {
     ExpiredTokenError,
     #[error("Invalid password")]
     InvalidPasswordError,
+    #[error("Malformed Schema")]
+    MalformedSchemaError,
 }
 
 pub type ServerResult<T> = Result<T, ServerError>;
@@ -43,6 +45,7 @@ impl IntoResponse for ServerError {
             Self::StatusError(_, code) => code,
             Self::BadRequestError(_) => StatusCode::BAD_REQUEST,
             Self::MalformedTokenError => StatusCode::BAD_REQUEST,
+            Self::MalformedSchemaError => StatusCode::BAD_REQUEST,
             Self::UnauthorizedError => StatusCode::UNAUTHORIZED,
             Self::InvalidTokenError => StatusCode::UNAUTHORIZED,
             Self::ExpiredTokenError => StatusCode::UNAUTHORIZED,
