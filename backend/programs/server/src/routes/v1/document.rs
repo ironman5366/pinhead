@@ -10,9 +10,11 @@ use sqlx::types::chrono::{DateTime, Utc};
 use std::sync::Arc;
 
 #[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct CreateDocumentSerializer {
     pub title: String,
     pub content: Value,
+    pub content_type_id: i32,
 }
 
 #[axum_macros::debug_handler]

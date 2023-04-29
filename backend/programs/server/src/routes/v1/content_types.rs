@@ -8,13 +8,6 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::sync::Arc;
 
-#[derive(Deserialize, Debug)]
-pub struct CreateContentTypeSerializer {
-    pub name: Option<String>,
-    pub code: String,
-    pub schema: Value,
-}
-
 #[derive(Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ContentTypeSerializer {
@@ -48,4 +41,23 @@ pub async fn list_content_types(
     Ok(Json(ResultList {
         results: content_types,
     }))
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct CreateContentTypeSerializer {
+    pub name: String,
+    pub field_ids: Vec<i32>,
+}
+
+#[axum_macros::debug_handler]
+pub async fn create_content_type(
+    Extension(state): Extension<Arc<state>>,
+    Json(payload): Json<CreateContentTypeSerializer>,
+) -> ServerResult<Json<ContentTypeSerializer>> {
+    Ok(Json(
+        ContentType::create(&state.db_pool, payload.name, payload.field_ids)
+            .await?
+            .into(),
+    ))
 }

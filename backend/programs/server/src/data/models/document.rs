@@ -39,23 +39,29 @@ impl Document {
             .await?)
     }
 
-    pub async fn create(conn: &PgPool, title: String, content: Value) -> ServerResult<Self> {
+    pub async fn create(
+        conn: &PgPool,
+        title: String,
+        content_type_id: i32,
+        content: Value,
+    ) -> ServerResult<Self> {
         Ok(query_as!(
             Document,
             r#"
                 WITH new_document AS (
-                    INSERT INTO documents(title)
-                    VALUES ($1)
+                    INSERT INTO documents(title, content_type_id)
+                    VALUES ($1, $2)
                     RETURNING *
                 ),
                 document_version_insert AS (
                     INSERT INTO document_versions (document_id, content)
-                    SELECT id, $2::jsonb
+                    SELECT id, $3::jsonb
                     FROM new_document
                 )
                 SELECT * FROM new_document;
             "#,
             title,
+            content_type_id,
             content
         )
         .fetch_one(conn)

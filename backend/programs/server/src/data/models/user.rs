@@ -13,12 +13,6 @@ pub struct User {
 }
 
 impl User {
-    pub async fn get(conn: &PgPool, id: i32) -> ServerResult<Self> {
-        Ok(query_as!(User, "SELECT * FROM users where id=$1", id)
-            .fetch_one(conn)
-            .await?)
-    }
-
     pub async fn get_by_email(conn: &PgPool, email: String) -> ServerResult<Self> {
         Ok(query_as!(User, "SELECT * FROM users WHERE email=$1", email)
             .fetch_one(conn)

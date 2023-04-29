@@ -19,7 +19,7 @@ pub struct ContentField {
 
 impl ContentField {
     pub async fn list(conn: &PgPool) -> ServerResult<Vec<Self>> {
-        Ok(query_as!(ContentField, "SELECT * FROM content_fields;")
+        OkWIP query_as!(ContentField, "SELECT * FROM content_fields;")
             .fetch_all(conn)
             .await?)
     }

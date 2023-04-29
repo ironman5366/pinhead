@@ -1,7 +1,7 @@
 use crate::data::models::content_field::ContentField;
 use crate::error::ServerResult;
 use chrono::{DateTime, Utc};
-use sqlx::{query_as, FromRow, PgPool};
+use sqlx::{query, query_as, FromRow, PgPool};
 
 #[derive(FromRow, Debug)]
 pub struct ContentType {
@@ -28,9 +28,47 @@ impl ContentType {
         .await?)
     }
 
-    pub async fn list(conn: &PgPool) -> ServerResult<Vec<ContentType>> {
+    pub async fn list(conn: &PgPool) -> ServerResult<Vec<Self>> {
         Ok(query_as!(ContentType, "SELECT * FROM content_types;")
             .fetch_all(conn)
             .await?)
+    }
+
+    pub async fn create(conn: &PgPool, name: String, field_ids: Vec<i32>) -> ServerResult<Self> {
+        let mut transaction = conn.begin().await?;
+
+        // Insert a new content type
+        let content_type = query_as!(
+            ContentType,
+            r#"
+            INSERT INTO content_types (name)
+                VALUES ($1)
+            RETURNING *;
+            "#,
+            name
+        )
+        .fetch_one(&mut transaction)
+        .await?;
+
+        // TODO: provide ranks in the serializer
+        let field_ranks: Vec<i32> = (1..=field_ids.len() as i32).collect();
+
+        // Batch insert associated content type fields
+        query!(
+            r#"
+            INSERT INTO content_type_fields (content_type_id, content_field_id, field_rank)
+                SELECT $1, unnest($2::integer[]), unnest($3::integer[])
+            "#,
+            content_type.id,
+            &field_ids,
+            &field_ranks,
+        )
+        .execute(&mut transaction)
+        .await?;
+
+        // Commit the transaction
+        transaction.commit().await?;
+
+        Ok(content_type)
     }
 }
