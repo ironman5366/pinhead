@@ -52,7 +52,7 @@ pub struct CreateContentTypeSerializer {
 
 #[axum_macros::debug_handler]
 pub async fn create_content_type(
-    Extension(state): Extension<Arc<state>>,
+    Extension(state): Extension<Arc<State>>,
     Json(payload): Json<CreateContentTypeSerializer>,
 ) -> ServerResult<Json<ContentTypeSerializer>> {
     Ok(Json(
