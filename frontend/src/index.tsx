@@ -21,15 +21,15 @@ root.render(
   <React.StrictMode>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={Theme}>
           <QueryClientProvider client={queryClient}>
-              <TokenProvider>
-                  <ClientProvider>
-                      <BrowserRouter>
-                          <UserProvider>
-                              <App />
-                          </UserProvider>
-                      </BrowserRouter>
-                  </ClientProvider>
-              </TokenProvider>
+              <BrowserRouter>
+                  <TokenProvider>
+                      <ClientProvider>
+                              <UserProvider>
+                                  <App />
+                              </UserProvider>
+                      </ClientProvider>
+                  </TokenProvider>
+              </BrowserRouter>
           </QueryClientProvider>
       </MantineProvider>
 

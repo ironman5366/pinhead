@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import Documents from "./pages/Documents";
 import Settings from "./pages/Settings";
 import ContentTypes from "./pages/ContentTypes";
+import CreateContentField from "./pages/CreateContentField";
 
 function App() {
     return <Container fluid>
@@ -15,6 +16,9 @@ function App() {
             <Route path="/" element={<MainLayout />}>
                 <Route path="/" element={<Documents />} />
                 <Route path="/content_types/" element={<ContentTypes />} />
+                <Route path="/content_fields/">
+                    <Route path="new" element={<CreateContentField />} />
+                </Route>
                 <Route path="/settings/" element={<Settings />} />
             </Route>
             <Route path="/register" element={<GuestLayout>

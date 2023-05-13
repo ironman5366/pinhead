@@ -1,9 +1,11 @@
 import React from 'react';
 import {Button, Divider, Stack, Title} from "@mantine/core";
+import {useNavigate} from "react-router-dom";
 import useContentFields from "../../hooks/useContentFields";
 
 export default function ContentFieldList() {
     const { data } = useContentFields();
+    const navigate = useNavigate();
 
     return <Stack>
         <Title>
@@ -13,7 +15,7 @@ export default function ContentFieldList() {
             {d.name}
             <Divider />
         </div>)}
-        <Button>
+        <Button onClick={() => navigate("/content_fields/new/")}>
             + New Field
         </Button>
     </Stack>

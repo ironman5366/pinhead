@@ -6,6 +6,7 @@ import {
     IconLogout, IconFileDescription, IconTopologyRing, IconApi, TablerIconsProps,
 } from '@tabler/icons-react';
 import {useNavigate, Link } from "react-router-dom";
+import {useToken} from "../../contexts/TokenContext";
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -79,7 +80,9 @@ export interface SidebarProps {
 
 export default function Sidebar({height}: SidebarProps) {
     const { classes, cx } = useStyles();
+    const { clearToken } = useToken();
     const [active, setActive] = useState('Documents');
+    const navigate = useNavigate();
 
     const links = tabs.map((tab) => (
         <Link
@@ -109,7 +112,10 @@ export default function Sidebar({height}: SidebarProps) {
                     <span>Change account</span>
                 </a>
 
-                <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+                <a href="#" className={classes.link} onClick={(event) => {
+                    clearToken();
+                    navigate("/login")
+                }}>
                     <IconLogout className={classes.linkIcon} stroke={1.5} />
                     <span>Logout</span>
                 </a>

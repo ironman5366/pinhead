@@ -17,7 +17,7 @@ export const [UserProvider, useUser] = constate(() => {
                 console.debug("Logging in user ", data);
                 setUser(data)
             } else {
-                console.log("Clearing token and going to login");
+                console.debug("Clearing token and going to login");
                 clearToken();
                 navigate("/login")
             }

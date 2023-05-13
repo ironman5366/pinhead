@@ -1,17 +1,14 @@
 import {useQuery, UseQueryResult} from "react-query";
-import axios, {AxiosError} from "axios";
+import {AxiosError} from "axios";
+import {useClient} from "../contexts/ClientContext";
 
 export interface CodeAvailableResponse {
     available: string
 }
 
-async function fetchCodeAvailable(code: string): Promise<CodeAvailableResponse> {
-    const { data } = await axios.get<CodeAvailableResponse>(`/api/v1/content_fields/code_available/${code}`);
-    return data;
-}
-
 export function useCodeAvailable(code: string): UseQueryResult<CodeAvailableResponse, AxiosError> {
-    return useQuery(['CODE_AVAILABLE', code], () => fetchCodeAvailable(code), {
+    const {client} = useClient();
+    return useQuery(['CODE_AVAILABLE', code], () => client.get<CodeAvailableResponse>(`/api/v1/content_fields/code_available/${code}/`), {
         enabled: !!code,
     });
 }
