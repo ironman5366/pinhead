@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, PasswordInput, Stack, TextInput, Title} from "@mantine/core";
+import {Button, Container, PasswordInput, Stack, TextInput, Title} from "@mantine/core";
 import {useNavigate} from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 import {useToken} from "../contexts/TokenContext";
@@ -18,17 +18,19 @@ export default function Login() {
         }
     }, [navigate, isSuccess, data, setToken])
 
-    return <Stack>
-        <Title>
-            Login
-        </Title>
-        <TextInput type="email" placeholder="Email" value={email} onChange={(val) => setEmail(val.currentTarget.value)}/>
-        <PasswordInput placeholder="Password" value={password} onChange={(val) => setPassword(val.currentTarget.value)}/>
-        <Button onClick={() => mutate({email, password})} loading={isLoading}>
-            Login
-        </Button>
-        <Button variant="outline" onClick={() => navigate("/register")}>
-            Register
-        </Button>
-    </Stack>
+    return <Container>
+        <Stack>
+            <Title>
+                Login
+            </Title>
+            <TextInput type="email" placeholder="Email" value={email} onChange={(val) => setEmail(val.currentTarget.value)}/>
+            <PasswordInput placeholder="Password" value={password} onChange={(val) => setPassword(val.currentTarget.value)}/>
+            <Button onClick={() => mutate({email, password})} loading={isLoading}>
+                Login
+            </Button>
+            <Button variant="outline" onClick={() => navigate("/register")}>
+                Register
+            </Button>
+        </Stack>
+    </Container>
 }

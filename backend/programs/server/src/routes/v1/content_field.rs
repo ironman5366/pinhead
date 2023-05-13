@@ -2,7 +2,7 @@ use crate::data::models::content_field::ContentField;
 use crate::error::{ServerError, ServerResult};
 use crate::serializers::results::ResultList;
 use crate::state::State;
-use axum::{Extension, Json};
+use axum::{extract::Path, Extension, Json};
 use chrono::{DateTime, Utc};
 use jsonschema::JSONSchema;
 use serde::{Deserialize, Serialize};
@@ -69,4 +69,19 @@ pub async fn create_content_field(
             .await?
             .into(),
     ))
+}
+
+#[derive(Debug, Serialize)]
+pub struct CodeAvailableResponseSerializer {
+    pub available: bool,
+}
+
+#[axum_macros::debug_handler]
+pub async fn code_available(
+    Extension(state): Extension<Arc<State>>,
+    Path(code): Path<String>,
+) -> ServerResult<Json<CodeAvailableResponseSerializer>> {
+    Ok(Json(CodeAvailableResponseSerializer {
+        available: ContentField::code_available(&state.db_pool, code).await?,
+    }))
 }

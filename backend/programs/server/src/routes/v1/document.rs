@@ -23,9 +23,14 @@ pub async fn create_document(
     Json(payload): Json<CreateDocumentSerializer>,
 ) -> ServerResult<Json<DocumentSerializer>> {
     Ok(Json(
-        Document::create(&state.db_pool, payload.title, payload.content)
-            .await?
-            .into(),
+        Document::create(
+            &state.db_pool,
+            payload.title,
+            payload.content_type_id,
+            payload.content,
+        )
+        .await?
+        .into(),
     ))
 }
 

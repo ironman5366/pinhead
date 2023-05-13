@@ -8,6 +8,7 @@
   "rules": {
     "import/extensions": "off",
     "import/no-unresolved": "off",
+    "react/jsx-props-no-spreading": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }]
   }
 }

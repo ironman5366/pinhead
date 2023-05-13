@@ -1,7 +1,7 @@
 use crate::error::ServerResult;
 use chrono::{DateTime, Utc};
 use serde_json::Value;
-use sqlx::{query_as, PgPool};
+use sqlx::{query, query_as, PgPool};
 
 #[derive(sqlx::FromRow, Debug)]
 pub struct ContentField {
@@ -41,5 +41,24 @@ impl ContentField {
         )
         .fetch_one(conn)
         .await?)
+    }
+
+    pub async fn code_available(conn: &PgPool, code: String) -> ServerResult<bool> {
+        let exists = query!(
+            r#"
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM content_fields
+                    WHERE code = $1
+                );
+               "#,
+            code
+        )
+        .fetch_one(conn)
+        .await?
+        .exists;
+
+        // TODO: check the exists val;
+        Ok(true)
     }
 }
