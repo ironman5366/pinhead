@@ -47,6 +47,7 @@ pub async fn list_content_types(
 #[serde(rename_all = "camelCase")]
 pub struct CreateContentTypeSerializer {
     pub name: String,
+    pub code: String,
     pub field_ids: Vec<i32>,
 }
 
@@ -56,8 +57,13 @@ pub async fn create_content_type(
     Json(payload): Json<CreateContentTypeSerializer>,
 ) -> ServerResult<Json<ContentTypeSerializer>> {
     Ok(Json(
-        ContentType::create(&state.db_pool, payload.name, payload.field_ids)
-            .await?
-            .into(),
+        ContentType::create(
+            &state.db_pool,
+            payload.name,
+            payload.code,
+            payload.field_ids,
+        )
+        .await?
+        .into(),
     ))
 }

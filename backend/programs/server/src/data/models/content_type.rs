@@ -7,6 +7,7 @@ use sqlx::{query, query_as, FromRow, PgPool};
 pub struct ContentType {
     pub id: i32,
     pub name: String,
+    pub code: String,
     pub collection: bool,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
@@ -29,24 +30,40 @@ impl ContentType {
         .await?)
     }
 
+    pub async fn get_by_code(conn: &PgPool, code: String) -> ServerResult<Self> {
+        Ok(query_as!(
+            ContentType,
+            "SELECT * FROM content_types WHERE code=$1",
+            code
+        )
+        .fetch_one(conn)
+        .await?)
+    }
+
     pub async fn list(conn: &PgPool) -> ServerResult<Vec<Self>> {
         Ok(query_as!(ContentType, "SELECT * FROM content_types;")
             .fetch_all(conn)
             .await?)
     }
 
-    pub async fn create(conn: &PgPool, name: String, field_ids: Vec<i32>) -> ServerResult<Self> {
+    pub async fn create(
+        conn: &PgPool,
+        name: String,
+        code: String,
+        field_ids: Vec<i32>,
+    ) -> ServerResult<Self> {
         let mut transaction = conn.begin().await?;
 
         // Insert a new content type
         let content_type = query_as!(
             ContentType,
             r#"
-            INSERT INTO content_types (name)
-                VALUES ($1)
+            INSERT INTO content_types (name, code)
+                VALUES ($1, $2)
             RETURNING *;
             "#,
-            name
+            name,
+            code
         )
         .fetch_one(&mut transaction)
         .await?;

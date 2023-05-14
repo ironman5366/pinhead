@@ -1,10 +1,12 @@
+use crate::data::models::content_type::ContentType;
 use crate::data::models::document::Document;
-use crate::error::ServerResult;
+use crate::error::{ServerError, ServerResult};
 use crate::serializers::document::DocumentSerializer;
 use crate::serializers::results::ResultList;
 use crate::state::State;
 use axum::{extract::Path, Extension, Json};
-use serde::Deserialize;
+use hyper::Server;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use sqlx::types::chrono::{DateTime, Utc};
 use std::sync::Arc;
@@ -32,6 +34,41 @@ pub async fn create_document(
         .await?
         .into(),
     ))
+}
+
+#[derive(Serialize, Debug)]
+#[serde(rename_all = "camelCase", tag = "type")]
+pub enum DocumentByTypeResponse {
+    SingleField(Option<DocumentSerializer>),
+    CollectionField(Vec<DocumentSerializer>),
+}
+
+#[axum_macros::debug_handler]
+pub async fn list_documents_by_type(
+    Extension(state): Extension<Arc<State>>,
+    Path(code): Path<String>,
+) -> ServerResult<Json<DocumentByTypeResponse>> {
+    // TODO: should just do this in one query
+    let content_type = ContentType::get_by_code(&state.db_pool, code).await?;
+    let documents = Document::list_by_content_type(&state.db_pool, content_type.id).await?;
+
+    let doc_response: DocumentByTypeResponse;
+    if content_type.collection {
+        match documents.as_slice() {
+            [] => doc_response = DocumentByTypeResponse::SingleField(None),
+            [document] => doc_response = DocumentByTypeResponse::SingleField(Some(document.into())),
+            _ => return Err(ServerError::MultipleDocumentsReturnedError),
+        }
+    } else {
+        doc_response = DocumentByTypeResponse::CollectionField(
+            documents
+                .into_iter()
+                .map(DocumentSerializer::from)
+                .collect(),
+        )
+    }
+
+    Ok(Json(doc_response))
 }
 
 #[axum_macros::debug_handler]

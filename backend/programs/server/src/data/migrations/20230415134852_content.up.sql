@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS content_fields (
 
 CREATE TABLE IF NOT EXISTS content_types (
     id SERIAL PRIMARY KEY,
+    code VARCHAR(255) UNIQUE NOT NULL,
     name VARCHAR (255) NOT NULL,
     collection BOOLEAN NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),

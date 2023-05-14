@@ -4,7 +4,7 @@ use chrono::{DateTime, Utc};
 use serde_json::Value;
 use sqlx::{query_as, PgPool};
 
-#[derive(sqlx::FromRow, Debug)]
+#[derive(sqlx::FromRow, Debug, Clone)]
 pub struct Document {
     pub id: i32,
     pub title: String,
@@ -65,6 +65,19 @@ impl Document {
             content
         )
         .fetch_one(conn)
+        .await?)
+    }
+
+    pub async fn list_by_content_type(
+        conn: &PgPool,
+        content_type_id: i32,
+    ) -> ServerResult<Vec<Self>> {
+        Ok(query_as!(
+            Document,
+            "SELECT * FROM documents WHERE content_type_id=$1",
+            content_type_id
+        )
+        .fetch_all(conn)
         .await?)
     }
 }

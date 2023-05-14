@@ -2,7 +2,7 @@ use crate::data::models::document::Document;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct DocumentSerializer {
     pub id: i32,
     pub title: String,
@@ -17,6 +17,17 @@ impl From<Document> for DocumentSerializer {
         Self {
             id: document.id,
             title: document.title,
+            created_at: document.created_at,
+            updated_at: document.updated_at,
+        }
+    }
+}
+
+impl From<&Document> for DocumentSerializer {
+    fn from(document: &Document) -> Self {
+        Self {
+            id: document.id,
+            title: document.title.clone(),
             created_at: document.created_at,
             updated_at: document.updated_at,
         }

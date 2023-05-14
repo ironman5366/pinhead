@@ -1,7 +1,7 @@
 use crate::middleware::auth_middleware::auth_middleware;
 use crate::routes::v1::content_field::{code_available, create_content_field, list_content_fields};
 use crate::routes::v1::content_types::list_content_types;
-use crate::routes::v1::document::{create_document, list_documents};
+use crate::routes::v1::document::{create_document, list_documents, list_documents_by_type};
 use crate::routes::v1::health_check::health_check;
 use crate::routes::v1::user::{current, login, register};
 use axum::middleware::from_fn as middleware_from_fn;
@@ -21,6 +21,7 @@ fn document_routes() -> Router<()> {
     let auth_fn = middleware_from_fn(auth_middleware);
     Router::new()
         .route("/", get(list_documents))
+        .route("/:type", get(list_documents_by_type))
         .route("/", post(create_document))
         // Apply auth middleware to all document routes
         .layer(auth_fn)

@@ -38,6 +38,8 @@ pub enum ServerError {
     // TODO: do I need this?
     #[error("Database Error")]
     DatabaseError,
+    #[error("Expected one document, multiple returned")]
+    MultipleDocumentsReturnedError,
 }
 
 pub type ServerResult<T> = Result<T, ServerError>;
