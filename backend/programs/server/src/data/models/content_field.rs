@@ -1,6 +1,8 @@
+use crate::error::ServerError::DatabaseError;
 use crate::error::ServerResult;
 use chrono::{DateTime, Utc};
 use serde_json::Value;
+use sqlx::Error::Database;
 use sqlx::{query, query_as, PgPool};
 
 #[derive(sqlx::FromRow, Debug)]
@@ -56,9 +58,9 @@ impl ContentField {
         )
         .fetch_one(conn)
         .await?
-        .exists;
+        .exists
+        .ok_or(DatabaseError);
 
-        // TODO: check the exists val;
-        Ok(true)
+        Ok(!exists?)
     }
 }

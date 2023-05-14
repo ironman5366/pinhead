@@ -35,6 +35,9 @@ pub enum ServerError {
     InvalidPasswordError,
     #[error("Malformed Schema")]
     MalformedSchemaError,
+    // TODO: do I need this?
+    #[error("Database Error")]
+    DatabaseError,
 }
 
 pub type ServerResult<T> = Result<T, ServerError>;

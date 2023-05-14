@@ -7,6 +7,7 @@ use sqlx::{query, query_as, FromRow, PgPool};
 pub struct ContentType {
     pub id: i32,
     pub name: String,
+    pub collection: bool,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
 }

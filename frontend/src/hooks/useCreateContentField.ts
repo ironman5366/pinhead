@@ -6,7 +6,7 @@ import {ContentField} from "../types/ContentField";
 export interface CreateContentFieldOptions {
     name: string | null,
     code: string,
-    schema: string
+    schema: object
 }
 
 export default function useCreateContentField() {

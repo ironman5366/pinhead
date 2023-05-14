@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import {
+    Container,
     Grid,
     Header,
     rem,
@@ -32,7 +33,9 @@ export default function MainLayout({ children }: PropsWithChildren<any>) {
                     <Sidebar height={SIDEBAR_HEIGHT}/>
                 </Grid.Col>
                 <Grid.Col span="auto">
-                    <Outlet />
+                    <Container fluid>
+                        <Outlet />
+                    </Container>
                 </Grid.Col>
             </Grid>
         </AuthContainer>
