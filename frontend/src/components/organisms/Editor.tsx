@@ -1,3 +1,4 @@
+import React, {Dispatch, SetStateAction, useCallback} from "react"
 import { RichTextEditor, Link } from '@mantine/tiptap';
 import {JSONContent, useEditor} from '@tiptap/react';
 import Highlight from '@tiptap/extension-highlight';
@@ -7,7 +8,6 @@ import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
 import debounce from "lodash/debounce"
-import {Dispatch, SetStateAction, useCallback} from "react";
 
 export interface EditorProps {
     initialContent?: string

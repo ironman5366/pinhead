@@ -99,7 +99,7 @@ export default function Sidebar({height}: SidebarProps) {
     ));
 
     return (
-        <Navbar height={height} width={{ sm: 300 }} p="md" style={{
+        <Navbar height={height} p="md" style={{
             borderRight: `${rem(3)} solid #F3BAC0`
         }}>
             <Navbar.Section grow>

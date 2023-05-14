@@ -10,6 +10,7 @@ import Theme from "./theme";
 import './index.css'
 import {TokenProvider} from "./contexts/TokenContext";
 import {UserProvider} from "./contexts/UserContext";
+import './i18n'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

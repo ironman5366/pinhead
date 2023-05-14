@@ -1,13 +1,15 @@
 import React from 'react';
-import {Button, Card, Stack, Title} from "@mantine/core";
+import {Button, Card, Group, Stack, Title} from "@mantine/core";
+import {useTranslation} from "react-i18next";
 import useContentTypes from "../../hooks/useContentTypes";
 
 export default function ContentTypeList() {
     const { data, isLoading } = useContentTypes();
+    const { t } = useTranslation();
 
     return <Stack>
         <Title>
-            Content Types
+            {t("contentType.list.title")}
         </Title>
         {data && data.results.map((d) => <Card key={d.id}>
             <Card.Section>
@@ -16,8 +18,10 @@ export default function ContentTypeList() {
                 </Title>
             </Card.Section>
         </Card>)}
-        <Button>
-            + New Content Type
-        </Button>
+        <Group position="left">
+            <Button size="md">
+                {t("contentType.list.newType")}
+            </Button>
+        </Group>
     </Stack>
 }

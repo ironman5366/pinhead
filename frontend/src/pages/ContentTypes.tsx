@@ -5,11 +5,11 @@ import ContentTypeList from "../components/organisms/ContentTypeList";
 
 export default function ContentTypes() {
     return <Grid>
-            <Grid.Col span={6} >
-                <ContentFieldList />
-            </Grid.Col>
-            <Grid.Col span={6} >
+            <Grid.Col span={9} >
                 <ContentTypeList />
+            </Grid.Col>
+            <Grid.Col span={3} >
+                <ContentFieldList />
             </Grid.Col>
         </Grid>
 }

@@ -27,11 +27,11 @@ export default function MainLayout({ children }: PropsWithChildren<any>) {
             >
                 <Wordmark />
             </Header>
-            <Grid columns={24}>
-                <Grid.Col span={7}>
+            <Grid>
+                <Grid.Col span={3}>
                     <Sidebar height={SIDEBAR_HEIGHT}/>
                 </Grid.Col>
-                <Grid.Col span={17}>
+                <Grid.Col span="auto">
                     <Outlet />
                 </Grid.Col>
             </Grid>

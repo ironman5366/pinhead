@@ -1,0 +1,16 @@
+{
+  "title": "Pinhead",
+  "contentField.list.newField": "+ New Field",
+  "contentField.list.title": "Available Fields",
+  "contentField.newFieldForm.title": "Add Content Field",
+  "contentField.newFieldForm.name": "Name",
+  "contentField.newFieldForm.code": "Code",
+  "contentField.newFieldForm.schema": "Schema",
+  "contentType.list.newType": "+ New Content Type",
+  "contentType.list.title": "Content Types",
+  "shared.email": "Email",
+  "shared.password": "Password",
+  "shared.login": "Login",
+  "shared.register": "Register",
+  "shared.submit": "Submit"
+}
